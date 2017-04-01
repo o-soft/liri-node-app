@@ -114,3 +114,27 @@ function spotifySong(input) {
 
 	});
 }
+
+exports.twitterKeys = {
+  consumer_key: 'uZHm9ytPhzi073MfzlQrvrrCw',
+  consumer_secret: 'YBxJaWpRFqjNRlRmxgOVVwtYE4nihMRyDLs5My7VAVzij7bMSb',
+  access_token_key: '64258582-e8WV6iTONCLhoWLkjf5x9rWAPgf0pVsUs6BmkOW6q',
+  access_token_secret: '	fAxx2Wki9MnQX1y2wBkPljbWIvVEMFDeuheUKyeEYiHhu',
+}
+
+function twentyTweets(input) {
+	var params = {
+			screen_name: 'oscarluna1',
+			count: 20,
+		};
+	client.get('statuses/user_timeline', params, function(error, tweets, response) {
+	  if (!error) {
+	  	tweets = data;
+	  	var i = 0, len = tweets.legth;
+	  		for (i; i<len; i++) {
+	  			console.log(tweets[i]);
+	  		}
+	  }
+	});
+}
+	
