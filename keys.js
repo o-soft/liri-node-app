@@ -4,7 +4,7 @@ exports.twitterKeys = {
   consumer_key: 'uZHm9ytPhzi073MfzlQrvrrCw',
   consumer_secret: 'YBxJaWpRFqjNRlRmxgOVVwtYE4nihMRyDLs5My7VAVzij7bMSb',
   access_token_key: '64258582-e8WV6iTONCLhoWLkjf5x9rWAPgf0pVsUs6BmkOW6q',
-  access_token_secret: '	fAxx2Wki9MnQX1y2wBkPljbWIvVEMFDeuheUKyeEYiHhu',
+  access_token_secret: 'fAxx2Wki9MnQX1y2wBkPljbWIvVEMFDeuheUKyeEYiHhu',
 }
 
 // * Step One: Visit https://apps.twitter.com/app/new

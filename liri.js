@@ -13,6 +13,9 @@ var fs = require("fs");
 var request = require("request");
 var twitter = require("twitter");
 var spotify = require("spotify");
+var keys = require('./keys.js');
+
+
 
 // Take two arguments.
 // The first will be the action (i.e. "deposit", "withdraw", etc.)
@@ -37,7 +40,7 @@ switch (action) {
     break;
 
   case "do-what-it-says":
-    doWhat();
+    randomTask();
     break;
 
 }
@@ -85,7 +88,7 @@ function omdbMovie() {
 	  }
 	});
 
-}
+};
 
 function spotifySong(input) {
 	var input = process.argv[3];
@@ -100,8 +103,8 @@ function spotifySong(input) {
 	    	var trackInfo = data.tracks.items;
 	    		if (trackInfo[0] != undefined) {
 	    			console.log("Artist: " + data.tracks.items[0].artists[0].name);
-	    			console.log("Song Name" + data.tracks.items[0].name);
-	    			console.log("Preview Link" + data.tracks.items[0].external_urls.spotify);
+	    			console.log("Song Name: " + data.tracks.items[0].name);
+	    			console.log("Preview Link: " + data.tracks.items[0].external_urls.spotify);
 	    			console.log("Album: " + data.tracks.items[0].album.name);
 	    		}
 	    	}
@@ -113,28 +116,92 @@ function spotifySong(input) {
 	    // Do something with 'data' 
 
 	});
-}
+};
 
-exports.twitterKeys = {
-  consumer_key: 'uZHm9ytPhzi073MfzlQrvrrCw',
-  consumer_secret: 'YBxJaWpRFqjNRlRmxgOVVwtYE4nihMRyDLs5My7VAVzij7bMSb',
-  access_token_key: '64258582-e8WV6iTONCLhoWLkjf5x9rWAPgf0pVsUs6BmkOW6q',
-  access_token_secret: '	fAxx2Wki9MnQX1y2wBkPljbWIvVEMFDeuheUKyeEYiHhu',
-}
+// function twentyTweets() {
+// 	var params = {
+// 		screen_name: 'oscarluna1',
+// 	};
 
-function twentyTweets(input) {
-	var params = {
-			screen_name: 'oscarluna1',
-			count: 20,
-		};
-	client.get('statuses/user_timeline', params, function(error, tweets, response) {
-	  if (!error) {
-	  	tweets = data;
-	  	var i = 0, len = tweets.legth;
-	  		for (i; i<len; i++) {
-	  			console.log(tweets[i]);
-	  		}
-	  }
-	});
-}
+// 	var client = new twitter({
+// 		consumer_key: keys.twitterKeys.consumer_key,
+// 		consumer_secret: keys.twitterKeys.consumer_secret,
+// 		access_token_key: keys.twitterKeys.access_token_key,
+// 		access_token_secret: keys.twitterKeys.access_token_secret
+// 	});
+// 	// var twitterKeys = keys.twitterKeys;
+// 	client.get('statuses/user_timeline', params, function(error, tweets, response) {
+// 		if(!error) {
+// 			for(var t = 0; t < tweets.length; t++) {
+// 				output = ('\n' + '@' + params.screen_name + ' said ' + tweets[t].text + ' at ' + tweets[t].created_at +'\n');
+// 				console.log(output);
+// 				append();
+// 			}
+// 		} else {
+// 			console.log('twitter error');
+// 		}
+// 	});
+// }
+function twentyTweets() {
+    
+ var params = {
+        screen_name: 'oscarluna1',
+        count: 20,
+    };
+
+ var client = new twitter ({
+   
+   consumer_key: keys.twitterKeys.consumer_key,
+   consumer_secret: keys.twitterKeys.consumer_secret,
+   access_token_key: keys.twitterKeys.access_token_key,
+   access_token_secret: keys.twitterKeys.access_token_secret,
+ });
+
+    client.get("statuses/user_timeline", params, function(error, tweets, response) {
+         if (!error) {
+             for (var i =0; i < tweets.length; i++){
+                 var losTweets = tweets[i];
+               console.log(losTweets.text);
+             }
+         } 
+         else {
+         	console.log('twitter error');
+         }
+    });
+
+};
+
+function randomTask(inquiry) {
+  fs.readFile('random.txt', 'utf8', function(err, data) {
+    if (err) {
+      console.log(err);
+    }
+    var output = data.toString().split(','); //splits string from random.txt into an array
+    task = output[0]; //set task from random.txt array
+    inquiry = output[1]; //set request from random.txt array
+    //runs new parameters back through switch case
+    switch (task) {
+		  case "movie-this":
+		    omdbMovie();
+		    break;
+
+		  case "my-tweets":
+		    twentyTweets();
+		    break;
+
+		  case "spotify-this-song":
+		    spotifySong();
+		    break;
+
+		  case "do-what-it-says":
+		    randomTask();
+		    break;
+
+    	default:
+        	console.log('The prompt you typed for the requested task was not recognized; please double-check your spelling and try again.');
+
+    }; //end of switch
+  }); //end of read file
+}; 
+
 	
